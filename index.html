@@ -1999,11 +1999,44 @@
 
             [...appData.finishedBooks].reverse().forEach(fb => {
                 const div = document.createElement('div'); div.className = 'card';
+
+                // Estrelas de avaliação
+                const rating = parseInt(fb.rating) || 0;
+                const stars = Array.from({length: 5}, (_, i) =>
+                    `<span style="color:${i < rating ? '#fcd34d' : '#52525b'}; font-size:18px;">★</span>`
+                ).join('');
+
+                // Bloco de comentário com barra lateral
+                const commentBlock = fb.comment
+                    ? `<div style="display:flex; align-items:stretch; gap:0; background:var(--surface-light); border-radius:8px; margin:10px 0; overflow:hidden;">
+                            <div style="width:3px; background:#fcd34d; border-radius:8px 0 0 8px; flex-shrink:0;"></div>
+                            <div style="padding:10px 12px; font-size:13px; font-style:italic; color:#a1a1aa;">${fb.comment}</div>
+                        </div>`
+                    : `<div style="display:flex; align-items:stretch; gap:0; background:var(--surface-light); border-radius:8px; margin:10px 0; overflow:hidden;">
+                            <div style="width:3px; background:#52525b; border-radius:8px 0 0 8px; flex-shrink:0;"></div>
+                            <div style="padding:10px 12px; font-size:13px; font-style:italic; color:#52525b;">Sem comentário</div>
+                        </div>`;
+
+                // Páginas e tempo
+                const pages = fb.totalPages ? fb.totalPages : '—';
+                const time = formatTimeSpan(fb.totalTime || 0);
+
+                // Datas
+                const startDate = fb.startDate ? fb.startDate : '—';
+                const endDate = fb.date || '—';
+
                 div.innerHTML = `
-                    <div class="card-title" style="color:#fcd34d; display:flex; align-items:center; gap:6px;"><i class="ph ph-crown"></i> ${fb.title}</div>
-                    <div class="card-subtitle" style="margin:4px 0 10px 0;">Concluído em ${fb.date}</div>
-                    <div style="font-size:12px; color:var(--text-secondary); margin-bottom:8px;"><i class="ph ph-clock"></i> Tempo total de dedicação: ${formatTimeSpan(fb.totalTime || 0)}</div>
-                    ${fb.comment ? `<div style="font-size:13px; background:var(--surface-light); padding:10px; border-radius:8px; border-left:3px solid #fcd34d; font-style:italic; color:#e2e8f0; margin-top:8px;">"${fb.comment}"</div>` : ''}`;
+                    <div style="font-size:17px; font-weight:700; color:#fcd34d; display:flex; align-items:center; gap:8px; margin-bottom:2px;">
+                        <span style="font-size:10px; color:#fcd34d;">●</span> ${fb.title}
+                    </div>
+                    ${commentBlock}
+                    <div style="display:flex; gap:2px; margin-bottom:8px;">${stars}</div>
+                    <div style="font-size:13px; color:var(--text-secondary); display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+                        <i class="ph ph-book-open"></i> ${pages} págs. · <i class="ph ph-clock"></i> ${time}
+                    </div>
+                    <div style="font-size:13px; color:var(--text-secondary);">
+                        Data de início: ${startDate} · Concluído em: ${endDate}
+                    </div>`;
                 list.appendChild(div);
             });
         }
