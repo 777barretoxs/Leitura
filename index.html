@@ -936,6 +936,7 @@
         .badge-foco { background: var(--accent-color); color: white; box-shadow: 0 0 12px var(--accent-color); }
         .badge-progresso { background: rgba(9, 9, 11, 0.75); color: #e4e4e7; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(4px); }
         .badge-novo { background: rgba(234, 179, 8, 0.85); color: #ffffff; border: 1px solid rgba(234, 179, 8, 0.2); backdrop-filter: blur(4px); }
+        .badge-concluido { background: rgba(34, 197, 94, 0.85); color: #ffffff; border: 1px solid rgba(34, 197, 94, 0.3); backdrop-filter: blur(4px); box-shadow: 0 0 10px rgba(34, 197, 94, 0.3); }
 
         .book-actions-wrapper {
             position: absolute;
@@ -1003,7 +1004,11 @@
             border-color: var(--border-color);
             opacity: 1;
         }
-    </style>
+    
+.custom-alert-backdrop{position:fixed;inset:0;background:rgba(7,10,20,.62);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px;opacity:0;transition:opacity .22s ease,backdrop-filter .22s ease;backdrop-filter:blur(0)}
+.day-detail-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,23,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transition:opacity .22s ease}.day-detail-modal.show{display:flex;opacity:1}.day-detail-card{width:min(94vw,520px);background:linear-gradient(180deg,rgba(17,24,39,.98),rgba(11,13,18,.98));border:1px solid rgba(148,163,184,.16);border-radius:26px;box-shadow:0 28px 80px rgba(0,0,0,.68), inset 0 1px 0 rgba(255,255,255,.04);padding:22px 20px;transform:translateY(20px) scale(.96);transition:transform .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}.day-detail-modal.show .day-detail-card{transform:translateY(0) scale(1)}.day-detail-card::before{content:'';position:absolute;inset:0 auto auto 0;height:4px;width:100%;background:linear-gradient(90deg,#22c55e,#6366f1,#8b5cf6);box-shadow:0 0 16px rgba(99,102,241,.35)}.day-detail-title{font-size:18px;font-weight:800;color:#fff;margin:2px 0 4px;text-align:center}.day-detail-sub{font-size:12px;color:var(--text-secondary);text-align:center;margin-bottom:16px}.day-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.day-detail-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:12px}.day-detail-box span{display:block;font-size:10px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}.day-detail-box strong{font-size:13px;color:#fff}.day-detail-list{margin-top:14px;display:flex;flex-direction:column;gap:10px;max-height:280px;overflow:auto}.day-detail-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:12px 14px}.day-detail-item .book{font-weight:700;color:#fff;font-size:14px}.day-detail-item .meta{margin-top:4px;font-size:12px;color:var(--text-secondary)}.day-detail-footer{display:flex;justify-content:flex-end;margin-top:16px}.day-detail-btn{width:auto !important;min-width:110px;padding:10px 14px !important;border-radius:14px !important}
+.custom-alert-backdrop.show{display:flex;opacity:1;backdrop-filter:blur(8px)}.custom-alert-card{width:min(92vw,420px);background:linear-gradient(180deg,rgba(17,24,39,.98),rgba(12,16,27,.98));color:#fff;border:1px solid rgba(129,140,248,.22);border-radius:24px;box-shadow:0 22px 60px rgba(0,0,0,.48);padding:22px 20px;transform:translateY(16px) scale(.96);opacity:0;transition:transform .22s cubic-bezier(.2,.8,.2,1),opacity .22s ease,box-shadow .22s ease;position:relative;overflow:hidden}.custom-alert-card::before{content:'';position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#6366f1,#8b5cf6,#22c55e)}.custom-alert-backdrop.show .custom-alert-card{transform:translateY(0) scale(1);opacity:1;box-shadow:0 28px 72px rgba(99,102,241,.16),0 18px 48px rgba(0,0,0,.46)}.custom-alert-title{font-size:16px;font-weight:700;margin:4px 0 10px;color:#e5e7ff}.custom-alert-message{font-size:14px;line-height:1.55;color:rgba(255,255,255,.9);margin:0 0 18px}.custom-alert-actions{display:flex;justify-content:flex-end;gap:10px}.custom-alert-btn{border:none;border-radius:14px;padding:10px 18px;font-weight:700;cursor:pointer;transition:transform .15s ease,filter .15s ease,background .15s ease}.custom-alert-btn:hover{transform:translateY(-1px)}.custom-alert-ok{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;box-shadow:0 10px 20px rgba(99,102,241,.22)}.custom-alert-cancel{background:rgba(255,255,255,.08);color:#fff} 
+</style>
 </head>
 <body>
 
@@ -1391,6 +1396,8 @@
                 }
                 el.disabled = false;
                 appData.books.forEach(b => {
+                    // No select de concluir, omite livros já concluídos
+                    if (id === 'finish-book-select' && b.finished) return;
                     const opt = document.createElement('option');
                     opt.value = b.id; opt.textContent = b.title;
                     el.appendChild(opt);
@@ -1532,7 +1539,16 @@
             return b ? b.title : "Obra Geral";
         }
 
-        function formatTimeSpan(sec) {
+        function formatDateBR(dateStr){
+  if (!dateStr) return '';
+  const m = String(dateStr).match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return `${m[3]}/${m[2]}/${m[1]}`;
+  const d = new Date(dateStr);
+  if (!isNaN(d)) return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+  return dateStr;
+}
+
+function formatTimeSpan(sec) {
             if (sec === 0) return "0m";
             const absoluteSec = Math.abs(sec);
             const m = Math.floor(absoluteSec / 60), h = Math.floor(m / 60), mins = m % 60;
@@ -1754,7 +1770,10 @@
 
                 let badgeClass = 'badge-novo';
                 let badgeLabel = 'Novo';
-                if (b.id == currentFocusedBookId && isTimerRunning) {
+                if (b.finished) {
+                    badgeClass = 'badge-concluido';
+                    badgeLabel = 'Concluído';
+                } else if (b.id == currentFocusedBookId && isTimerRunning) {
                     badgeClass = 'badge-foco';
                     badgeLabel = 'Foco Ativo';
                 } else if (b.currentPage > 0) {
@@ -1832,7 +1851,104 @@
             renderStats();
         }
 
-        function renderStats() {
+        
+function getTodayKey(){
+  return new Date().toISOString().split('T')[0];
+}
+function getDailyGoalStore(){
+  try { return JSON.parse(localStorage.getItem('dailyGoalStore') || '{}') || {}; } catch(e) { return {}; }
+}
+function setDailyGoalStore(store){
+  localStorage.setItem('dailyGoalStore', JSON.stringify(store));
+}
+function getTodayGoalMinutes(){
+  const store = getDailyGoalStore();
+  const today = getTodayKey();
+  return Number(store[today] || store.default || 60);
+}
+function setTodayGoalMinutes(minutes){
+  const store = getDailyGoalStore();
+  const today = getTodayKey();
+  store[today] = minutes;
+  store.default = minutes;
+  setDailyGoalStore(store);
+}
+function getTodayMinutesRead(){
+  const today = getTodayKey();
+  return appData.sessions.reduce((acc,s)=>{
+    const d = (s.date || '').split(' ')[0];
+    return acc + (d === today ? Math.max(0, s.durationSeconds || 0) : 0);
+  }, 0) / 60;
+}
+function renderDailyGoal(){
+  const wrap = document.getElementById('daily-goal-section');
+  if (!wrap) return;
+  const goal = Math.max(1, parseInt(getTodayGoalMinutes() || 60));
+  const read = Math.max(0, Math.round(getTodayMinutesRead()));
+  const pct = Math.min((read / goal) * 100, 100);
+  const left = Math.max(goal - read, 0);
+  const today = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'2-digit', month:'2-digit', year:'numeric' });
+  wrap.innerHTML = `
+    <div class="daily-goal-card">
+      <div class="daily-goal-head">
+        <div>
+          <div class="daily-goal-title">Meta diária</div>
+          <div class="daily-goal-date">${today.charAt(0).toUpperCase() + today.slice(1)}</div>
+        </div>
+        <button class="primary daily-goal-btn" onclick="setDailyGoalPrompt()"><i class="ph ph-target"></i>Definir meta</button>
+      </div>
+      <div class="daily-goal-progress"><div class="daily-goal-progress-bar animate" style="width:${pct.toFixed(1)}%"></div></div>
+      <div class="daily-goal-meta">
+        <span>Leituras de hoje: <strong>${read} min</strong></span>
+        <span>Faltam: <strong>${left} min</strong> para bater a meta de ${goal} min</span>
+      </div>
+    </div>`;
+}
+function setDailyGoalPrompt(){
+  const current = getTodayGoalMinutes();
+  const value = prompt('Defina sua meta diária em minutos:', current);
+  if (value === null) return;
+  const minutes = parseInt(value, 10);
+  if (!minutes || minutes < 1) return alert('Informe uma meta válida em minutos.');
+  setTodayGoalMinutes(minutes);
+  renderStats();
+}
+function openDayDetailModal(dateStr){
+  const modal = document.getElementById('day-detail-modal');
+  const title = document.getElementById('day-detail-title');
+  const sub = document.getElementById('day-detail-sub');
+  const grid = document.getElementById('day-detail-grid');
+  const list = document.getElementById('day-detail-list');
+  if(!modal||!title||!sub||!grid||!list) return;
+  const sessions = appData.sessions.filter(s => (s.date || '').split(' ')[0] === dateStr).slice().sort((a,b)=>b.id-a.id);
+  const totalSec = sessions.reduce((acc,s)=>acc + (s.durationSeconds || 0), 0);
+  const booksMap = {};
+  sessions.forEach(s => {
+    const name = getBookName(s.bookId);
+    booksMap[name] = (booksMap[name] || 0) + 1;
+  });
+  const books = Object.keys(booksMap).length ? Object.entries(booksMap).map(([k,v]) => v > 1 ? `${k} (${v} registros)` : k).join(', ') : 'Nenhum livro registrado';
+  title.textContent = formatDateBR(dateStr);
+  sub.textContent = `${sessions.length} registros no dia`;
+  grid.innerHTML = `
+    <div class="day-detail-box"><span>Horas que li</span><strong>${formatTimeSpan(totalSec)}</strong></div>
+    <div class="day-detail-box"><span>Livros que li</span><strong>${books}</strong></div>
+    <div class="day-detail-box"><span>Total de sessões</span><strong>${sessions.length}</strong></div>
+    <div class="day-detail-box"><span>Página final</span><strong>${sessions.length ? (sessions[0].endPage ?? '—') : '—'}</strong></div>
+  `;
+  list.innerHTML = sessions.length ? sessions.map(s => `
+    <div class="day-detail-item">
+      <div class="book">${getBookName(s.bookId)}</div>
+      <div class="meta">${s.type === 'manual' ? 'Ajuste manual' : 'Sessão de foco'} · ${formatTimeSpan(s.durationSeconds || 0)} · ${formatDateBR((s.date || '').split(' ')[0])}</div>
+      <div class="meta">${s.note ? s.note : 'Sem observação'}</div>
+    </div>`).join('') : '<div class="empty-state">Sem atividades nesse dia.</div>';
+  modal.classList.add('show');
+}
+function closeDayDetailModal(){
+  const modal = document.getElementById('day-detail-modal');
+  if(modal) modal.classList.remove('show');
+}
+function renderStats() {
             let totalSec = 0; 
             appData.sessions.forEach(s => totalSec += (s.durationSeconds || 0));
             
@@ -1840,6 +1956,7 @@
             document.getElementById('stat-total-sessions').innerText = appData.sessions.length;
             document.getElementById('stat-total-books').innerText = appData.books.length;
             document.getElementById('stat-finished-books').innerText = appData.finishedBooks.length;
+            renderDailyGoal();
 
             const timeByDate = {};
             appData.sessions.forEach(s => {
@@ -1875,8 +1992,8 @@
                 const cell = document.createElement('div');
                 cell.className = 'calendar-cell';
                 cell.innerText = day;
-
                 const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                cell.onclick = () => openDayDetailModal(dateStr);
                 const secondsRead = timeByDate[dateStr] || 0;
                 const minutesRead = secondsRead / 60;
 
@@ -1986,11 +2103,17 @@
             if (idx === -1) return;
 
             const b = appData.books[idx];
+
+            // Marca o livro como concluído e completa as páginas
+            b.finished = true;
+            b.finishedDate = dateStr;
+            if (b.totalPages > 0) b.currentPage = b.totalPages;
+
             appData.finishedBooks.push({ id: Date.now(), bookId: b.id, title: b.title, date: dateStr, rating: rt, comment: cmt, totalTime: b.totalTime, totalPages: b.totalPages, coverUrl: b.coverUrl });
-            appData.books.splice(idx, 1);
             saveData();
             document.getElementById('finish-comment').value = '';
-            alert("Parabéns! Obra arquivada em sua galeria de troféus.");
+            renderBooks();
+            alert("Parabéns! Obra concluída e mantida na sua estante.");
         }
 
         function renderFinished() {
@@ -2052,7 +2175,7 @@
                 
                 div.innerHTML = `
                     <div style="display:flex; justify-content:between; margin-bottom:4px; font-size:11px; color:var(--text-secondary);">
-                        <span style="flex:1;">${s.date}</span>
+                        <span style="flex:1;">${formatDateBR((s.date || '').split(' ')[0])}</span>
                         <span style="font-weight:700; color:${s.durationSeconds >= 0 ? '#4ade80' : '#f87171'};">${s.durationSeconds > 0 ? '+' : ''}${formatTimeSpan(s.durationSeconds)}</span>
                     </div>
                     <div style="font-size:14px; font-weight:600; letter-spacing:-0.01em;">${s.bookId ? getBookName(s.bookId) : 'Fluxo Geral / Produtividade'}</div>
@@ -2088,5 +2211,105 @@
             }
         }
     </script>
+
+<div id="custom-alert-backdrop" class="custom-alert-backdrop">
+  <div class="custom-alert-card">
+    <p class="custom-alert-title">Atenção</p>
+    <p id="custom-alert-message" class="custom-alert-message"></p>
+    <div class="custom-alert-actions">
+      <button class="custom-alert-btn custom-alert-cancel" id="custom-alert-cancel" style="display:none">Cancelar</button>
+      <button class="custom-alert-btn custom-alert-ok" id="custom-alert-ok">OK</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  if (window.__customDialogInstalled) return;
+  window.__customDialogInstalled = true;
+
+  const style = document.createElement('style');
+  style.textContent = `
+  .custom-dialog-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:99999;background:rgba(2,6,23,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:20px;animation:dlgBackdropIn .28s ease}
+  .custom-dialog-backdrop.show{display:flex}.custom-dialog-backdrop.show .custom-dialog-card{transform:translateY(0) scale(1);opacity:1}
+  .custom-dialog-card{width:min(92vw,460px);background:linear-gradient(180deg,rgba(21,24,31,.98),rgba(11,13,18,.98));color:#fff;border:1px solid rgba(148,163,184,.16);border-radius:28px;box-shadow:0 30px 90px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.05);padding:24px 22px 16px;position:relative;overflow:hidden;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transform:translateY(34px);opacity:0;transition:none}}
+  .custom-dialog-card::before{content:'';position:absolute;inset:0 auto auto 0;height:5px;width:100%;background:linear-gradient(90deg,#22c55e 0%,#60a5fa 35%,#8b5cf6 70%,#ec4899 100%);opacity:.95;box-shadow:0 0 16px rgba(99,102,241,.35)}
+  .custom-dialog-message{font-size:15px;line-height:1.65;color:#f4f7fb;margin:8px 0 16px;white-space:pre-wrap;font-weight:500;letter-spacing:-0.01em;text-shadow:0 1px 0 rgba(0,0,0,.22);text-align:center}
+  .custom-dialog-actions{display:flex;justify-content:center;gap:8px;align-items:center;margin-top:14px}
+  .custom-dialog-btn{min-width:66px;height:34px;padding:0 12px;border-radius:11px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.06);color:#fff;font-weight:700;font-size:12px;cursor:pointer;transition:transform .15s ease,filter .15s ease,background .15s ease,box-shadow .15s ease;box-shadow:0 8px 18px rgba(0,0,0,.18)}
+  .custom-dialog-btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+  .custom-dialog-btn:active{transform:translateY(1px) scale(.96);filter:brightness(.98)}
+  .custom-dialog-btn.clicked{animation:dlgBtnPop .28s cubic-bezier(.2,.8,.2,1)}
+  @keyframes dlgBtnPop{0%{transform:scale(1)}45%{transform:scale(.92)}100%{transform:scale(1)}}
+  .custom-dialog-card::after{content:'';position:absolute;inset:auto 14% 12px 14%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent)}
+  @keyframes dlgBackdropIn{from{opacity:0}to{opacity:1}}
+  @keyframes dlgSlideUp{0%{opacity:0;transform:translateY(34px);filter:blur(4px)}65%{opacity:1;transform:translateY(-3px);filter:blur(0)}100%{opacity:1;transform:translateY(0)}}
+  @keyframes dlgPulse{0%,100%{box-shadow:0 30px 90px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.05)}50%{box-shadow:0 34px 100px rgba(0,0,0,.78), inset 0 1px 0 rgba(255,255,255,.07)}}
+  .custom-dialog-backdrop.show .custom-dialog-card{animation:dlgSlideUp .52s cubic-bezier(.22,1,.36,1) forwards, dlgPulse 4s ease-in-out infinite .52s}
+
+  .custom-dialog-ok{background:linear-gradient(135deg,#22c55e,#16a34a);border-color:rgba(34,197,94,.38);box-shadow:0 10px 20px rgba(34,197,94,.16)}
+  .custom-dialog-cancel{background:linear-gradient(135deg,#ef4444,#dc2626);border-color:rgba(239,68,68,.38);box-shadow:0 10px 20px rgba(239,68,68,.14)}
+  `;
+  document.head.appendChild(style);
+
+  const backdrop = document.createElement('div');
+  backdrop.className = 'custom-dialog-backdrop';
+  backdrop.innerHTML = `
+    <div class="custom-dialog-card" role="dialog" aria-modal="true">
+      <div class="custom-dialog-message" id="custom-dialog-message"></div>
+      <div class="custom-dialog-actions" id="custom-dialog-actions">
+        <button class="custom-dialog-btn custom-dialog-ok" id="custom-dialog-ok">OK</button>
+      </div>
+    </div>`;
+  document.addEventListener('DOMContentLoaded', ()=>document.body.appendChild(backdrop));
+
+  let resolver = null;
+  function openDialog(message){
+    return new Promise(resolve => {
+      resolver = resolve;
+      const msg = document.getElementById('custom-dialog-message');
+      const actions = document.getElementById('custom-dialog-actions');
+      msg.textContent = message;
+      const isBackup = (document.querySelector('.tab-content.active')?.id === 'tab-backup');
+      actions.innerHTML = isBackup ? `
+        <button class=\"custom-dialog-btn custom-dialog-cancel\" id=\"custom-dialog-cancel\">Cancelar</button>
+        <button class=\"custom-dialog-btn custom-dialog-ok\" id=\"custom-dialog-ok\">OK</button>` : `
+        <button class=\"custom-dialog-btn custom-dialog-ok\" id=\"custom-dialog-ok\">OK</button>`;
+      backdrop.classList.add('show');
+    });
+  }
+  function closeDialog(value){
+    backdrop.classList.remove('show');
+    const resolve = resolver; resolver = null;
+    if (resolve) resolve(value);
+  }
+  document.addEventListener('click', e => {
+    if (e.target.id === 'custom-dialog-ok') {
+      e.target.classList.remove('clicked');
+      void e.target.offsetWidth;
+      e.target.classList.add('clicked');
+      setTimeout(() => e.target.classList.remove('clicked'), 300);
+      setTimeout(() => closeDialog(true), 180);
+    }
+    if (e.target.id === 'custom-dialog-cancel') {
+      e.target.classList.remove('clicked');
+      void e.target.offsetWidth;
+      e.target.classList.add('clicked');
+      setTimeout(() => e.target.classList.remove('clicked'), 300);
+      setTimeout(() => closeDialog(false), 180);
+    }
+    if (e.target === backdrop) return;
+  });
+  window.alert = async function(message){ await openDialog(String(message ?? '')); };
+  window.confirm = async function(message){ return await openDialog(String(message ?? '')); };
+
+  const originalClearAllData = window.clearAllData;
+  window.clearAllData = function(){
+    openDialog('Deseja apagar todos os registros do armazenamento local?').then(ok => {
+      if (ok && typeof originalClearAllData === 'function') originalClearAllData();
+    });
+  };
+})();
+</script>
 </body>
 </html>
