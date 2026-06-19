@@ -355,15 +355,15 @@
             -moz-appearance: textfield;
         }
 
-        /* EVO DE DESIGN: Container Evoluído do Timer Reativo */
+        /* ── TIMER CONTAINER — Alinhado ao estilo Stats Premium ── */
         .timer-container {
-            background: radial-gradient(circle at center, rgba(24, 24, 27, 0.98) 0%, #09090b 100%);
-            border-radius: 28px;
-            padding: var(--spacing-lg) var(--spacing-md);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: linear-gradient(150deg, rgba(24,24,30,0.98) 0%, rgba(14,14,18,0.99) 100%);
+            border-radius: 22px;
+            padding: 24px var(--spacing-md) 20px;
+            border: 1px solid rgba(255,255,255,0.06);
             margin-bottom: var(--spacing-md);
             text-align: center;
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 10px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -372,32 +372,76 @@
             transition: border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        /* Efeito de Respiração Neon quando Ativo */
+        /* Linha de acento no topo — igual ao calendar-wrapper e chart-wrapper */
+        .timer-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), rgba(139,92,246,0.4), transparent);
+            transition: opacity 0.4s ease;
+        }
+
+        .timer-container.is-running::before {
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.8), rgba(139,92,246,0.7), transparent);
+            animation: timerAccentPulse 3s ease-in-out infinite alternate;
+        }
+
+        .timer-container.is-paused::before {
+            background: linear-gradient(90deg, transparent, rgba(234,179,8,0.6), rgba(249,115,22,0.5), transparent);
+        }
+
+        @keyframes timerAccentPulse {
+            from { opacity: 0.7; }
+            to { opacity: 1; }
+        }
+
+        /* Efeito de Respiração quando Ativo */
         .timer-container.is-running {
-            border-color: rgba(99, 102, 241, 0.25);
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 0 40px rgba(99, 102, 241, 0.12);
+            border-color: rgba(99,102,241,0.22);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 40px rgba(99,102,241,0.1);
             animation: containerBreathe 4s ease-in-out infinite alternate;
         }
 
         .timer-container.is-paused {
-            border-color: rgba(234, 179, 8, 0.2);
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 0 40px rgba(234, 179, 8, 0.06);
+            border-color: rgba(234,179,8,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 30px rgba(234,179,8,0.06);
         }
 
         @keyframes containerBreathe {
-            from { box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 0 30px rgba(99, 102, 241, 0.08); }
-            to { box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 0 50px rgba(99, 102, 241, 0.18); }
+            from { box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 28px rgba(99,102,241,0.08); }
+            to { box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 52px rgba(99,102,241,0.2); }
         }
 
-        /* Estrutura do Cronógrafo Circular */
+        /* ── CRONÓGRAFO CIRCULAR — Stats-style ── */
         .chrono-wrapper {
             position: relative;
-            width: 230px;
-            height: 230px;
-            margin: var(--spacing-md) auto var(--spacing-lg) auto;
+            width: 210px;
+            height: 210px;
+            margin: 20px auto 22px auto;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* Anel decorativo externo (nível de fundo) */
+        .chrono-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(99,102,241,0.04) 0%, transparent 70%);
+            transition: opacity 0.5s ease;
+        }
+
+        .timer-container.is-running .chrono-wrapper::before {
+            opacity: 1;
+            animation: chronoGlowPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes chronoGlowPulse {
+            from { background: radial-gradient(circle at center, rgba(99,102,241,0.04) 0%, transparent 70%); }
+            to { background: radial-gradient(circle at center, rgba(99,102,241,0.10) 0%, transparent 70%); }
         }
 
         .chrono-svg {
@@ -411,30 +455,38 @@
 
         .chrono-bg {
             fill: none;
-            stroke: rgba(255, 255, 255, 0.02);
-            stroke-width: 4px;
+            stroke: rgba(255, 255, 255, 0.04);
+            stroke-width: 7px;
+        }
+
+        /* Trilha de fundo com gradiente sutil */
+        .chrono-track {
+            fill: none;
+            stroke: rgba(99,102,241,0.06);
+            stroke-width: 7px;
         }
 
         .chrono-progress {
             fill: none;
             stroke: url(#chrono-gradient);
-            stroke-width: 4px;
+            stroke-width: 7px;
             stroke-linecap: round;
             stroke-dasharray: 628.31;
             stroke-dashoffset: 628.31;
-            transition: stroke-dashoffset 0.3s ease;
+            transition: stroke-dashoffset 0.35s cubic-bezier(0.16,1,0.3,1);
+            filter: drop-shadow(0px 0px 4px rgba(99,102,241,0.3));
         }
 
-        /* Glow dinâmico aplicado ao anel ativo */
         .timer-container.is-running .chrono-progress {
-            filter: drop-shadow(0px 0px 6px rgba(99, 102, 241, 0.6));
+            filter: drop-shadow(0px 0px 8px rgba(99,102,241,0.65));
         }
 
         .timer-container.is-paused .chrono-progress {
             stroke: url(#chrono-gradient-paused);
-            filter: drop-shadow(0px 0px 6px rgba(234, 179, 8, 0.5));
+            filter: drop-shadow(0px 0px 7px rgba(234,179,8,0.55));
         }
 
+        /* ── DISPLAY DO TIMER ── */
         .timer-display {
             display: flex;
             align-items: baseline;
@@ -452,57 +504,118 @@
         }
 
         .time-main {
-            font-size: 46px;
-            font-weight: 300;
+            font-size: 48px;
+            font-weight: 200;
             color: #ffffff;
+            letter-spacing: -0.04em;
         }
 
         .time-seconds {
             font-size: 22px;
-            font-weight: 400;
-            opacity: 0.4;
+            font-weight: 300;
+            opacity: 0.35;
             margin-left: 2px;
             transition: opacity 0.3s ease;
+            letter-spacing: -0.02em;
         }
 
         .timer-container.is-running .time-seconds {
-            opacity: 0.8;
+            opacity: 0.75;
             animation: blinkSeconds 1s ease-in-out infinite;
         }
 
         @keyframes blinkSeconds {
-            50% { opacity: 0.3; }
+            50% { opacity: 0.25; }
         }
 
-        /* Botões Principais do Timer e Transições Ativas */
+        /* Label de estado sob o display */
+        .timer-status-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-top: 6px;
+            transition: color 0.3s ease, opacity 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .timer-container.is-running .timer-status-label {
+            color: #818cf8;
+            opacity: 1;
+        }
+
+        .timer-container.is-paused .timer-status-label {
+            color: #f59e0b;
+            opacity: 1;
+        }
+
+        /* ── BOTÕES DO TIMER — Stats-style ── */
         .timer-controls {
             display: flex;
-            gap: var(--spacing-sm);
+            gap: 10px;
             width: 100%;
             z-index: 5;
+            margin-top: 4px;
         }
 
         .timer-controls button {
             flex: 1;
-            height: 48px;
+            height: 46px;
+            border-radius: var(--border-radius-md);
+            font-size: 13.5px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
         }
 
         #btn-start-timer, #btn-pause-timer, #btn-finish-timer {
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Novo Card de Métricas em Tempo Real para Deixar Completo */
+        /* Botão Iniciar — azul/indigo igual ao primary do Stats */
+        #btn-start-timer {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 6px 22px rgba(99,102,241,0.32);
+        }
+
+        #btn-start-timer:hover { filter: brightness(1.09); }
+        #btn-start-timer:active { transform: scale(0.96); }
+
+        /* Botão Pausar — amarelo como no painel de referência */
+        #btn-pause-timer {
+            background: linear-gradient(135deg, rgba(234,179,8,0.18) 0%, rgba(234,179,8,0.08) 100%);
+            border: 1px solid rgba(234,179,8,0.28);
+            color: #f59e0b;
+            box-shadow: 0 4px 16px rgba(234,179,8,0.10);
+        }
+
+        #btn-pause-timer:hover { filter: brightness(1.09); }
+        #btn-pause-timer:active { transform: scale(0.96); }
+
+        /* Botão Concluir — neutro premium */
+        #btn-finish-timer {
+            background: linear-gradient(150deg, rgba(30,30,36,0.92) 0%, rgba(16,16,19,0.97) 100%);
+            border: 1px solid rgba(255,255,255,0.07);
+            color: var(--text-secondary);
+        }
+
+        #btn-finish-timer:hover { border-color: rgba(99,102,241,0.3); color: var(--text-primary); }
+        #btn-finish-timer:active { transform: scale(0.96); }
+
+        /* ── PAINEL DE MÉTRICAS — Stats-style premium ── */
         .live-metrics-panel {
             width: 100%;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: var(--spacing-lg);
-            padding-top: var(--spacing-md);
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,0.045);
             opacity: 0.4;
             transform: translateY(4px);
-            transition: all 0.4s ease;
+            transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
         }
 
         .timer-container.is-running .live-metrics-panel,
@@ -511,62 +624,131 @@
             transform: translateY(0);
         }
 
+        /* Metric pill — replica o estilo dos stat-box da aba Stats */
         .metric-pill {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            padding: 10px;
+            background: linear-gradient(150deg, rgba(30,30,36,0.92) 0%, rgba(16,16,19,0.97) 100%);
+            border: 1px solid rgba(255,255,255,0.055);
+            border-radius: var(--border-radius-md);
+            padding: 12px 12px;
             display: flex;
             align-items: center;
             gap: 10px;
             text-align: left;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Linha de acento mini nas pills */
+        .metric-pill::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1.5px;
+            border-radius: 99px 99px 0 0;
+            background: linear-gradient(90deg, #6366f1, #818cf8);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timer-container.is-running .metric-pill:first-child::before {
+            opacity: 1;
+            background: linear-gradient(90deg, #818cf8, #6366f1);
+        }
+
+        .timer-container.is-running .metric-pill:last-child::before {
+            opacity: 1;
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+        }
+
+        .timer-container.is-paused .metric-pill::before {
+            opacity: 1;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
         }
 
         .metric-pill i {
-            font-size: 18px;
+            font-size: 17px;
             color: var(--text-secondary);
-            transition: color 0.3s ease;
+            background: rgba(255,255,255,0.05);
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .timer-container.is-running .metric-pill i {
-            color: var(--accent-color);
+        .timer-container.is-running .metric-pill:first-child i {
+            color: #818cf8;
+            background: rgba(99,102,241,0.14);
+        }
+
+        .timer-container.is-running .metric-pill:last-child i {
+            color: #4ade80;
+            background: rgba(34,197,94,0.12);
+        }
+
+        .timer-container.is-paused .metric-pill i {
+            color: #f59e0b;
+            background: rgba(234,179,8,0.12);
         }
 
         .metric-pill-data {
             display: flex;
             flex-direction: column;
+            gap: 2px;
         }
 
         .metric-pill-value {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 13.5px;
+            font-weight: 700;
             color: var(--text-primary);
+            letter-spacing: -0.01em;
         }
 
         .metric-pill-label {
-            font-size: 10px;
-            color: var(--text-secondary);
+            font-size: 9.5px;
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.06em;
+            font-weight: 600;
         }
 
-        /* Seletor de Livro Estilo Card Picker */
+        /* ── SELETOR DE LIVRO — Stats-style premium ── */
         .card-picker-trigger {
-            background: linear-gradient(150deg, rgba(30,30,36,0.92) 0%, rgba(16,16,19,0.97) 100%);
-            border: 1px solid rgba(255,255,255,0.055);
+            background: linear-gradient(150deg, rgba(24,24,30,0.98) 0%, rgba(14,14,18,0.99) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
             border-radius: var(--border-radius-md);
             padding: 12px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.22s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Linha de acento igual ao calendar/chart */
+        .card-picker-trigger::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.35), transparent);
+            border-radius: 99px 99px 0 0;
         }
 
         .card-picker-trigger:hover {
-            border-color: rgba(99,102,241,0.3);
-            box-shadow: var(--shadow-soft);
+            border-color: rgba(99,102,241,0.28);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
         }
+
+        .card-picker-trigger:active { transform: scale(0.99); }
 
         .card-picker-info {
             display: flex;
@@ -1570,7 +1752,25 @@
             grid-column: 1 / -1;
         }
 
-        #finish-reading-section { display: none; margin-top: var(--spacing-lg); }
+        #finish-reading-section {
+            display: none;
+            margin-top: var(--spacing-lg);
+            background: linear-gradient(150deg, rgba(24,24,30,0.98) 0%, rgba(14,14,18,0.99) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 22px;
+            padding: 20px var(--spacing-md);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #finish-reading-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(34,197,94,0.55), rgba(74,222,128,0.4), transparent);
+        }
 
         /* ── ESTANTE DE LIVROS — LAYOUT PREMIUM ── */
         .books-grid {
@@ -2453,38 +2653,47 @@
                 </div>
             </div>
 
-            <!-- CONTAINER DO TIMER TOTALMENTE REMODELADO -->
+            <!-- CONTAINER DO TIMER — Design alinhado ao estilo Stats -->
+            <div class="stats-divider" style="margin-bottom: var(--spacing-md); margin-top: 0;">
+                <div class="stats-divider-line"></div>
+                <span class="stats-divider-label">Sessão de Leitura</span>
+                <div class="stats-divider-line"></div>
+            </div>
             <div class="timer-container" id="main-timer-container">
                 <div class="chrono-wrapper">
                     <svg class="chrono-svg" viewBox="0 0 220 220">
                         <defs>
-                            <!-- Gradiente Ativo (Indigo/Violet) -->
+                            <!-- Gradiente Ativo (Indigo/Violet) — mesmo da barra de Progresso Semanal -->
                             <linearGradient id="chrono-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#6366f1" />
-                                <stop offset="100%" stop-color="#a855f7" />
+                                <stop offset="0%" stop-color="#818cf8" />
+                                <stop offset="50%" stop-color="#6366f1" />
+                                <stop offset="100%" stop-color="#4f46e5" />
                             </linearGradient>
                             <!-- Gradiente Pausado (Amarelo/Laranja) -->
                             <linearGradient id="chrono-gradient-paused" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#eab308" />
+                                <stop offset="0%" stop-color="#fbbf24" />
                                 <stop offset="100%" stop-color="#f97316" />
                             </linearGradient>
                         </defs>
                         <circle class="chrono-bg" cx="110" cy="110" r="100"></circle>
                         <circle class="chrono-progress" id="chrono-progress-ring" cx="110" cy="110" r="100"></circle>
                     </svg>
-                    <div class="timer-display" id="timer-display">
-                        <span class="time-main" id="timer-time-main">00:00</span>
-                        <span class="time-seconds" id="timer-time-seconds">:00</span>
+                    <div style="display:flex; flex-direction:column; align-items:center; z-index:5;">
+                        <div class="timer-display" id="timer-display">
+                            <span class="time-main" id="timer-time-main">00:00</span>
+                            <span class="time-seconds" id="timer-time-seconds">:00</span>
+                        </div>
+                        <span class="timer-status-label" id="timer-status-label">Pronto</span>
                     </div>
                 </div>
 
                 <div class="timer-controls">
-                    <button id="btn-start-timer" class="primary" onclick="startTimer()"><i class="ph ph-play"></i> Iniciar Sessão</button>
-                    <button id="btn-pause-timer" style="display: none; background-color: rgba(234, 179, 8, 0.1); border-color: rgba(234, 179, 8, 0.2); color: #f59e0b;" onclick="pauseTimer()"><i class="ph ph-pause"></i> Pausar</button>
-                    <button id="btn-finish-timer" style="display: none; background: rgba(255,255,255,0.04);" onclick="prepareFinishReading()"><i class="ph ph-check-circle"></i> Concluir</button>
+                    <button id="btn-start-timer" onclick="startTimer()"><i class="ph ph-play"></i> Iniciar Sessão</button>
+                    <button id="btn-pause-timer" style="display: none;" onclick="pauseTimer()"><i class="ph ph-pause"></i> Pausar</button>
+                    <button id="btn-finish-timer" style="display: none;" onclick="prepareFinishReading()"><i class="ph ph-check-circle"></i> Concluir</button>
                 </div>
 
-                <!-- NOVO PAINEL DE MÉTRICAS EM TEMPO REAL -->
+                <!-- PAINEL DE MÉTRICAS EM TEMPO REAL — Stats-style -->
                 <div class="live-metrics-panel" id="live-metrics-panel">
                     <div class="metric-pill">
                         <i class="ph ph-brain"></i>
@@ -2503,15 +2712,25 @@
                 </div>
             </div>
 
-            <div id="finish-reading-section" class="card">
-                <h3>Salvar Progresso</h3>
-                <div class="form-group" style="margin-top: var(--spacing-md);">
+            <div id="finish-reading-section">
+                <div class="stats-divider" style="margin-top: 0; margin-bottom: 18px;">
+                    <div class="stats-divider-line"></div>
+                    <span class="stats-divider-label">Salvar Progresso</span>
+                    <div class="stats-divider-line"></div>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:18px;">
+                    <div style="width:34px;height:34px;min-width:34px;border-radius:10px;background:rgba(34,197,94,0.14);color:#4ade80;display:flex;align-items:center;justify-content:center;font-size:17px;"><i class="ph ph-floppy-disk"></i></div>
+                    <div>
+                        <div style="font-size:15px;font-weight:700;color:var(--text-primary);letter-spacing:-0.01em;">Salvar Progresso</div>
+                        <div style="font-size:12px;color:var(--text-secondary);margin-top:1px;" id="finish-summary"></div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="finish-page-input">Página Atual</label>
                     <input type="number" id="finish-page-input" min="0" placeholder="Onde você parou?">
                 </div>
-                <p id="finish-summary" class="card-subtitle" style="margin-bottom: var(--spacing-md);"></p>
-                <button class="primary" onclick="confirmFinishReading()"><i class="ph ph-floppy-disk"></i> Salvar Registros</button>
-                <button onclick="cancelFinishReading()" style="margin-top: 8px;">Voltar ao Timer</button>
+                <button class="primary" onclick="confirmFinishReading()" style="margin-bottom:10px;"><i class="ph ph-floppy-disk"></i> Salvar Registros</button>
+                <button onclick="cancelFinishReading()">Voltar ao Timer</button>
             </div>
         </div>
 
@@ -2975,6 +3194,7 @@ let appData = { books: [], sessions: [], finishedBooks: [] };
 
             const container = document.getElementById('main-timer-container');
             const finishSection = document.getElementById('finish-reading-section');
+            const statusLabel = document.getElementById('timer-status-label');
 
             if (timerState.status === 'running') {
                 // Religa o tick visual (a contagem real já foi calculada acima)
@@ -2988,6 +3208,7 @@ let appData = { books: [], sessions: [], finishedBooks: [] };
                 document.getElementById('card-picker-btn').style.opacity = '0.4';
                 document.getElementById('card-picker-btn').style.pointerEvents = 'none';
                 if (finishSection) finishSection.style.display = 'none';
+                if (statusLabel) statusLabel.textContent = 'Em andamento';
             } else if (timerState.status === 'paused') {
                 if (container) container.className = 'timer-container is-paused';
                 document.getElementById('btn-start-timer').style.display = 'flex';
@@ -2997,6 +3218,7 @@ let appData = { books: [], sessions: [], finishedBooks: [] };
                 document.getElementById('card-picker-btn').style.opacity = '0.4';
                 document.getElementById('card-picker-btn').style.pointerEvents = 'none';
                 if (finishSection) finishSection.style.display = 'none';
+                if (statusLabel) statusLabel.textContent = 'Pausado';
             } else {
                 // stopped: garante UI zerada e consistente
                 if (container) container.className = 'timer-container';
@@ -3006,6 +3228,7 @@ let appData = { books: [], sessions: [], finishedBooks: [] };
                 document.getElementById('btn-finish-timer').style.display = 'none';
                 document.getElementById('card-picker-btn').style.opacity = '1';
                 document.getElementById('card-picker-btn').style.pointerEvents = 'auto';
+                if (statusLabel) statusLabel.textContent = 'Pronto';
             }
 
             updateTimerUI();
@@ -3418,6 +3641,10 @@ function formatTimeSpan(sec) {
                 
                 document.getElementById('card-picker-btn').style.opacity = '0.4';
                 document.getElementById('card-picker-btn').style.pointerEvents = 'none';
+
+                const statusLabel = document.getElementById('timer-status-label');
+                if (statusLabel) statusLabel.textContent = 'Em andamento';
+
                 updateTimerUI();
             }
         }
@@ -3446,6 +3673,10 @@ function formatTimeSpan(sec) {
                 document.getElementById('btn-start-timer').style.display = 'flex';
                 document.getElementById('btn-start-timer').innerHTML = '<i class="ph ph-play"></i> Retomar';
                 document.getElementById('btn-pause-timer').style.display = 'none';
+
+                const statusLabel = document.getElementById('timer-status-label');
+                if (statusLabel) statusLabel.textContent = 'Pausado';
+
                 updateTimerUI();
             }
         }
@@ -3519,6 +3750,10 @@ function formatTimeSpan(sec) {
             
             document.getElementById('card-picker-btn').style.opacity = '1';
             document.getElementById('card-picker-btn').style.pointerEvents = 'auto';
+
+            const statusLabel = document.getElementById('timer-status-label');
+            if (statusLabel) statusLabel.textContent = 'Pronto';
+
             updateLiveMetrics();
         }
 
@@ -4822,4 +5057,3 @@ function renderStats() {
 </script>
 </body>
 </html>
-
