@@ -1776,7 +1776,7 @@
         .books-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-top: var(--spacing-md);
         }
 
@@ -1786,15 +1786,16 @@
         }
 
         .book-card-premium {
-            background: linear-gradient(145deg, rgba(28,28,33,0.97) 0%, rgba(16,16,20,0.99) 100%);
+            /* Mesmo gradiente, raio e profundidade de sombra de .calendar-wrapper / .chart-wrapper */
+            background: linear-gradient(150deg, rgba(24,24,30,0.98) 0%, rgba(14,14,18,0.99) 100%);
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 20px;
+            border-radius: 22px;
             overflow: hidden;
             display: flex;
             flex-direction: row;
             align-items: stretch;
-            box-shadow: 0 8px 28px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.04);
-            transition: transform 0.28s cubic-bezier(0.16,1,0.3,1), box-shadow 0.28s ease, border-color 0.22s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+            transition: box-shadow 0.28s ease, border-color 0.22s ease, transform 0.2s ease;
             cursor: pointer;
             position: relative;
             animation: bookCardIn 0.42s cubic-bezier(0.16,1,0.3,1) both;
@@ -1804,20 +1805,19 @@
 
         @media (hover: hover) {
             .book-card-premium:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 16px 40px rgba(0,0,0,0.44), inset 0 1px 0 rgba(255,255,255,0.06);
-                border-color: rgba(99,102,241,0.28);
+                border-color: rgba(99,102,241,0.22);
             }
         }
 
+        /* Linha de acento no topo, idêntica à de .calendar-wrapper::before / .chart-wrapper::before */
         .book-card-premium::before {
             content: '';
             position: absolute;
-            left: 0; top: 16px; bottom: 16px;
-            width: 3px;
-            border-radius: 0 3px 3px 0;
-            background: linear-gradient(180deg, #6366f1, #818cf8);
-            opacity: 0;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            border-radius: 22px 22px 0 0;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), rgba(139,92,246,0.4), transparent);
+            opacity: 0.7;
             transition: opacity 0.25s ease;
             z-index: 2;
         }
@@ -1830,7 +1830,7 @@
             width: 84px;
             position: relative;
             overflow: hidden;
-            border-radius: 16px 0 0 16px;
+            border-radius: 21px 0 0 21px;
         }
 
         .book-cover-mock {
@@ -1904,7 +1904,7 @@
             -webkit-backdrop-filter: blur(6px);
             opacity: 0;
             transition: opacity 0.22s ease;
-            border-radius: 16px 0 0 16px;
+            border-radius: 21px 0 0 21px;
         }
         .book-card-premium.show-actions .book-actions-wrapper { opacity: 1; }
 
@@ -1991,23 +1991,23 @@
 
         .book-progress-bar-track {
             width: 100%;
-            height: 5px;
-            background: rgba(255,255,255,0.06);
-            border-radius: 100px;
+            height: 8px;
+            background-color: var(--surface-light);
+            border-radius: 99px;
             overflow: hidden;
         }
 
         .book-progress-bar-fill {
             height: 100%;
-            border-radius: 100px;
-            background: linear-gradient(90deg, #6366f1 0%, #a5b4fc 100%);
-            box-shadow: 0 0 8px rgba(99,102,241,0.55);
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--accent-color), #818cf8);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.8);
             width: 0%;
-            transition: width 0.9s cubic-bezier(0.16,1,0.3,1);
+            transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .book-card-premium.status-concluido .book-progress-bar-fill {
-            background: linear-gradient(90deg, #22c55e 0%, #4ade80 100%);
-            box-shadow: 0 0 8px rgba(34,197,94,0.45);
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+            box-shadow: 0 0 10px rgba(34,197,94,0.55);
         }
 
         .book-card-footer {
@@ -2340,70 +2340,75 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── GALERIA DE TROFÉUS PREMIUM (Padrão Histórico) ── */
+        /* ── GALERIA DE TROFÉUS — ALINHADA AO PADRÃO VISUAL DA ABA STATS ── */
         .trophy-grid {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: var(--spacing-md);
         }
 
+        /* Card no mesmo padrão de .calendar-wrapper / .chart-wrapper da aba Stats:
+           mesmo gradiente de fundo, raio de borda, sombra em profundidade e
+           linha de acento gradiente no topo. */
         .trophy-card {
-            background: linear-gradient(150deg, rgba(30,30,36,0.92) 0%, rgba(16,16,19,0.97) 100%);
-            border: 1px solid rgba(255,255,255,0.055);
-            border-radius: 18px;
-            padding: 16px;
-            box-shadow: var(--shadow-soft);
+            background: linear-gradient(150deg, rgba(24,24,30,0.98) 0%, rgba(14,14,18,0.99) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 22px;
+            padding: 18px 16px 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
             position: relative;
             overflow: hidden;
             opacity: 0;
             transform: translateY(12px);
             animation: histFadeIn 0.5s ease forwards;
-            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.18s ease;
+            transition: transform 0.28s cubic-bezier(0.16,1,0.3,1), box-shadow 0.28s ease, border-color 0.22s ease;
         }
 
         .trophy-card:active { transform: scale(0.985); }
 
         @media (hover: hover) {
             .trophy-card:hover {
-                border-color: rgba(252,211,77,0.28);
-                box-shadow: var(--shadow-lift);
-                transform: translateY(-2px);
+                transform: translateY(-3px);
+                box-shadow: 0 16px 40px rgba(0,0,0,0.44), inset 0 1px 0 rgba(255,255,255,0.06);
+                border-color: rgba(99,102,241,0.28);
             }
         }
 
+        /* Linha de acento no topo, idêntica à de .chart-wrapper::before */
         .trophy-card::before {
             content: '';
             position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 3px;
-            border-radius: 3px 0 0 3px;
-            background: linear-gradient(180deg, #fcd34d, #f59e0b);
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            border-radius: 22px 22px 0 0;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), rgba(168,85,247,0.4), transparent);
         }
 
         .trophy-card-top {
             display: flex;
             gap: 13px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .trophy-cover {
             width: 58px;
             height: 80px;
             min-width: 58px;
-            border-radius: 9px;
+            border-radius: 12px;
             object-fit: cover;
             background: linear-gradient(150deg, var(--surface-light), #1c1c20);
             box-shadow: 0 6px 16px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.06);
+            transition: transform 0.2s ease;
         }
 
         .trophy-cover-fallback {
             width: 58px;
             height: 80px;
             min-width: 58px;
-            border-radius: 9px;
-            background: linear-gradient(150deg, rgba(252,211,77,0.16), rgba(245,158,11,0.06));
-            border: 1px solid rgba(252,211,77,0.18);
+            border-radius: 12px;
+            background: rgba(99,102,241,0.15);
+            border: 1px solid rgba(99,102,241,0.2);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2412,8 +2417,8 @@
 
         .trophy-cover-fallback i {
             font-size: 22px;
-            color: #fcd34d;
-            opacity: 0.85;
+            color: #818cf8;
+            opacity: 0.9;
         }
 
         .trophy-info {
@@ -2421,7 +2426,7 @@
             flex-direction: column;
             justify-content: center;
             min-width: 0;
-            gap: 6px;
+            gap: 7px;
         }
 
         .trophy-title {
@@ -2441,15 +2446,19 @@
         .trophy-stars svg {
             width: 16px;
             height: 16px;
+            filter: drop-shadow(0 0 6px rgba(99,102,241,0.25));
         }
 
+        /* Bloco de resenha alinhado à paleta indigo/violet da aba Stats,
+           mesma estrutura de borda + sombra suave dos demais blocos internos. */
         .trophy-comment {
-            background: linear-gradient(150deg, rgba(252,211,77,0.07) 0%, rgba(255,255,255,0.018) 100%);
-            border: 1px solid rgba(252,211,77,0.14);
-            border-left: 3px solid #fcd34d;
-            border-radius: 11px;
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-left: 3px solid var(--accent-color);
+            border-radius: 14px;
             padding: 12px 13px;
-            margin-bottom: 13px;
+            margin-bottom: 14px;
+            transition: border-color 0.25s ease, background 0.25s ease;
         }
 
         .trophy-comment-label {
@@ -2460,9 +2469,9 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #fcd34d;
+            color: var(--accent-color);
             margin-bottom: 5px;
-            opacity: 0.9;
+            opacity: 0.95;
         }
 
         .trophy-comment-text {
@@ -2477,6 +2486,9 @@
             font-style: italic;
         }
 
+        /* Pílulas de metadados no mesmo padrão visual dos .stat-box:
+           mesmo raio, sombra, borda superior colorida (::before) e
+           hierarquia tipográfica (valor grande + rótulo uppercase). */
         .trophy-meta-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -2486,28 +2498,52 @@
         .trophy-meta-pill {
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.035);
-            border: 1px solid rgba(255,255,255,0.045);
-            border-radius: 10px;
-            padding: 8px 10px;
+            gap: 9px;
+            background: linear-gradient(150deg, rgba(30,30,36,0.92) 0%, rgba(16,16,19,0.97) 100%);
+            border: 1px solid rgba(255,255,255,0.055);
+            border-radius: var(--border-radius-md);
+            padding: 9px 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.25s ease;
         }
 
+        .trophy-meta-pill:active { transform: scale(0.97); }
+
+        @media (hover: hover) {
+            .trophy-meta-pill:hover { border-color: rgba(99,102,241,0.22); }
+        }
+
+        .trophy-meta-pill::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            border-radius: 99px 99px 0 0;
+        }
+
+        .trophy-meta-pill:nth-child(1)::before { background: linear-gradient(90deg, #6366f1, #818cf8); }
+        .trophy-meta-pill:nth-child(2)::before { background: linear-gradient(90deg, #22c55e, #4ade80); }
+        .trophy-meta-pill:nth-child(3)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .trophy-meta-pill:nth-child(4)::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+        .trophy-meta-pill:nth-child(5)::before { background: linear-gradient(90deg, #6366f1, #a855f7); }
+
         .trophy-meta-icon {
-            width: 26px;
-            height: 26px;
-            min-width: 26px;
-            border-radius: 7px;
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12.5px;
+            font-size: 14px;
         }
 
         .trophy-meta-pill:nth-child(1) .trophy-meta-icon { background: rgba(99,102,241,0.15); color: #818cf8; }
-        .trophy-meta-pill:nth-child(2) .trophy-meta-icon { background: rgba(34,197,94,0.13); color: #4ade80; }
-        .trophy-meta-pill:nth-child(3) .trophy-meta-icon { background: rgba(236,72,153,0.13); color: #f472b6; }
-        .trophy-meta-pill:nth-child(4) .trophy-meta-icon { background: rgba(245,158,11,0.13); color: #fbbf24; }
+        .trophy-meta-pill:nth-child(2) .trophy-meta-icon { background: rgba(34,197,94,0.12); color: #4ade80; }
+        .trophy-meta-pill:nth-child(3) .trophy-meta-icon { background: rgba(245,158,11,0.12); color: #fbbf24; }
+        .trophy-meta-pill:nth-child(4) .trophy-meta-icon { background: rgba(236,72,153,0.12); color: #f472b6; }
+        .trophy-meta-pill:nth-child(5) .trophy-meta-icon { background: rgba(99,102,241,0.15); color: #c4b5fd; }
 
         .trophy-meta-text {
             display: flex;
@@ -2516,9 +2552,10 @@
         }
 
         .trophy-meta-value {
-            font-size: 12.5px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
             color: var(--text-primary);
+            letter-spacing: -0.02em;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -2528,8 +2565,8 @@
             font-size: 9.5px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
             margin-top: 1px;
         }
 
@@ -2569,15 +2606,29 @@
             margin-bottom: 0;
             border: 1px solid transparent;
             opacity: 0;
+            border-radius: 22px;
+            position: relative;
             transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease, margin 0.35s ease, opacity 0.25s ease;
         }
 
+        /* Mesmo padrão visual de .calendar-wrapper / .chart-wrapper da aba Stats */
         .add-book-accordion.open {
             max-height: 440px; 
-            padding: var(--spacing-md);
+            padding: 20px 16px 16px;
             margin-bottom: var(--spacing-md);
-            border-color: var(--border-color);
+            background: linear-gradient(150deg, rgba(24,24,30,0.98) 0%, rgba(14,14,18,0.99) 100%);
+            border-color: rgba(255,255,255,0.06);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
             opacity: 1;
+        }
+
+        .add-book-accordion.open::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), rgba(139,92,246,0.4), transparent);
+            border-radius: 22px 22px 0 0;
         }
     
 .custom-alert-backdrop{position:fixed;inset:0;background:rgba(7,10,20,.62);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px;opacity:0;transition:opacity .22s ease,backdrop-filter .22s ease;backdrop-filter:blur(0)}
@@ -2926,7 +2977,11 @@
                 </div>
                 <button class="primary" onclick="markBookAsFinished()"><i class="ph ph-archive"></i> Arquivar como Concluído</button>
             </div>
-            <h3>Galeria de Troféus</h3>
+            <div class="stats-divider" style="margin-top: var(--spacing-lg);">
+                <div class="stats-divider-line"></div>
+                <span class="stats-divider-label">Galeria de Troféus</span>
+                <div class="stats-divider-line"></div>
+            </div>
             <div id="finished-list"></div>
         </div>
 
@@ -4932,123 +4987,429 @@ function renderStats() {
   if (window.__customDialogInstalled) return;
   window.__customDialogInstalled = true;
 
+  /* ═══════════════════════════════════════════════════════════════
+     SISTEMA DE DIÁLOGOS PREMIUM — alinhado com a aba Stats
+     (calendar-wrapper / chart-wrapper visual language)
+     ═══════════════════════════════════════════════════════════════ */
   const style = document.createElement('style');
   style.textContent = `
-  .custom-dialog-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:99999;background:rgba(2,6,23,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:20px;animation:dlgBackdropIn .28s ease}
-  .custom-dialog-backdrop.show{display:flex}.custom-dialog-backdrop.show .custom-dialog-card{transform:translateY(0) scale(1);opacity:1}
-  .custom-dialog-card{width:min(92vw,460px);background:linear-gradient(180deg,rgba(21,24,31,.98),rgba(11,13,18,.98));color:#fff;border:1px solid rgba(148,163,184,.16);border-radius:28px;box-shadow:0 30px 90px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.05);padding:24px 22px 16px;position:relative;overflow:hidden;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transform:translateY(34px);opacity:0;transition:none}}
-  .custom-dialog-card::before{content:'';position:absolute;inset:0 auto auto 0;height:5px;width:100%;background:linear-gradient(90deg,#22c55e 0%,#60a5fa 35%,#8b5cf6 70%,#ec4899 100%);opacity:.95;box-shadow:0 0 16px rgba(99,102,241,.35)}
-  .custom-dialog-message{font-size:15px;line-height:1.65;color:#f4f7fb;margin:8px 0 16px;white-space:pre-wrap;font-weight:500;letter-spacing:-0.01em;text-shadow:0 1px 0 rgba(0,0,0,.22);text-align:center}
-  .custom-dialog-actions{display:flex;justify-content:center;gap:8px;align-items:center;margin-top:14px}
-  .custom-dialog-btn{min-width:66px;height:34px;padding:0 12px;border-radius:11px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.06);color:#fff;font-weight:700;font-size:12px;cursor:pointer;transition:transform .15s ease,filter .15s ease,background .15s ease,box-shadow .15s ease;box-shadow:0 8px 18px rgba(0,0,0,.18)}
-  .custom-dialog-btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
-  .custom-dialog-btn:active{transform:translateY(1px) scale(.96);filter:brightness(.98)}
-  .custom-dialog-btn.clicked{animation:dlgBtnPop .28s cubic-bezier(.2,.8,.2,1)}
-  @keyframes dlgBtnPop{0%{transform:scale(1)}45%{transform:scale(.92)}100%{transform:scale(1)}}
-  .custom-dialog-card::after{content:'';position:absolute;inset:auto 14% 12px 14%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent)}
-  @keyframes dlgBackdropIn{from{opacity:0}to{opacity:1}}
-  @keyframes dlgSlideUp{0%{opacity:0;transform:translateY(34px);filter:blur(4px)}65%{opacity:1;transform:translateY(-3px);filter:blur(0)}100%{opacity:1;transform:translateY(0)}}
-  @keyframes dlgPulse{0%,100%{box-shadow:0 30px 90px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.05)}50%{box-shadow:0 34px 100px rgba(0,0,0,.78), inset 0 1px 0 rgba(255,255,255,.07)}}
-  .custom-dialog-backdrop.show .custom-dialog-card{animation:dlgSlideUp .52s cubic-bezier(.22,1,.36,1) forwards, dlgPulse 4s ease-in-out infinite .52s}
 
-  .custom-dialog-ok{background:linear-gradient(135deg,#22c55e,#16a34a);border-color:rgba(34,197,94,.38);box-shadow:0 10px 20px rgba(34,197,94,.16)}
-  .custom-dialog-cancel{background:linear-gradient(135deg,#ef4444,#dc2626);border-color:rgba(239,68,68,.38);box-shadow:0 10px 20px rgba(239,68,68,.14)}
-  .custom-dialog-input{width:100%;background-color:var(--surface-light);color:#fff;border:1px solid rgba(255,255,255,.08);padding:12px 14px;border-radius:14px;font-size:16px;font-weight:600;outline:none;text-align:center;margin-bottom:6px;transition:all .2s ease}
-  .custom-dialog-input:focus{border-color:var(--accent-color);box-shadow:0 0 0 3px var(--accent-glow)}
+  /* ── BACKDROP ── */
+  .custom-dialog-backdrop {
+    position: fixed; inset: 0;
+    display: none; align-items: center; justify-content: center;
+    z-index: 99999;
+    padding: 20px;
+    /* mesmo padrão de blur do bottom-sheet */
+    background: rgba(9, 9, 11, 0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .custom-dialog-backdrop.show { display: flex; }
+  @keyframes dlgBackdropIn  { from { opacity:0 } to { opacity:1 } }
+  @keyframes dlgBackdropOut { from { opacity:1 } to { opacity:0 } }
+  .custom-dialog-backdrop.show  { animation: dlgBackdropIn  .26s ease forwards; }
+  .custom-dialog-backdrop.hide  { animation: dlgBackdropOut .22s ease forwards; }
+
+  /* ── CARD — mesmos tokens de .calendar-wrapper / .chart-wrapper ── */
+  .custom-dialog-card {
+    width: min(92vw, 420px);
+    background: linear-gradient(160deg, rgba(24,24,30,0.99) 0%, rgba(13,13,16,0.99) 100%);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 26px;
+    box-shadow:
+      0 32px 80px rgba(0,0,0,0.75),
+      0 8px 24px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.055);
+    padding: 0 0 20px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+    transition: none;
+  }
+
+  /* Linha de acento no topo — idêntica à de .calendar-wrapper::before */
+  .custom-dialog-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.65), rgba(139,92,246,0.5), transparent);
+    border-radius: 26px 26px 0 0;
+  }
+
+  /* Variante destrutiva — linha vermelha */
+  .custom-dialog-card.dlg-danger::before {
+    background: linear-gradient(90deg, transparent, rgba(239,68,68,0.7), rgba(248,113,113,0.5), transparent);
+  }
+
+  /* Variante sucesso — linha verde */
+  .custom-dialog-card.dlg-success::before {
+    background: linear-gradient(90deg, transparent, rgba(34,197,94,0.65), rgba(74,222,128,0.45), transparent);
+  }
+
+  /* Variante prompt — linha indigo mais vibrante */
+  .custom-dialog-card.dlg-prompt::before {
+    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.85), rgba(168,85,247,0.6), transparent);
+  }
+
+  /* Animação de entrada — slide-up suave + desfoque saindo */
+  @keyframes dlgSlideIn {
+    0%   { opacity:0; transform: translateY(28px) scale(0.97); filter: blur(3px); }
+    65%  { opacity:1; transform: translateY(-3px) scale(1.003); filter: blur(0); }
+    100% { opacity:1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+  .custom-dialog-backdrop.show .custom-dialog-card {
+    animation: dlgSlideIn 0.50s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  /* ── ÍCONE DO TOPO ── */
+  .dlg-icon-wrap {
+    display: flex; align-items: center; justify-content: center;
+    margin: 28px 0 0;
+  }
+  .dlg-icon {
+    width: 52px; height: 52px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    position: relative;
+    overflow: hidden;
+  }
+  .dlg-icon::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .dlg-icon-info    { background: rgba(99,102,241,0.16);  color: #818cf8; box-shadow: 0 8px 24px rgba(99,102,241,0.2); }
+  .dlg-icon-danger  { background: rgba(239,68,68,0.14);   color: #f87171; box-shadow: 0 8px 24px rgba(239,68,68,0.18); }
+  .dlg-icon-success { background: rgba(34,197,94,0.13);   color: #4ade80; box-shadow: 0 8px 24px rgba(34,197,94,0.16); }
+  .dlg-icon-prompt  { background: rgba(99,102,241,0.16);  color: #a5b4fc; box-shadow: 0 8px 24px rgba(99,102,241,0.2); }
+  .dlg-icon-warning { background: rgba(245,158,11,0.14);  color: #fbbf24; box-shadow: 0 8px 24px rgba(245,158,11,0.16); }
+
+  /* ── CABEÇALHO ── */
+  .dlg-header {
+    padding: 14px 24px 0;
+    text-align: center;
+  }
+  .dlg-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #f4f4f5;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin-bottom: 0;
+  }
+
+  /* ── MENSAGEM ── */
+  .custom-dialog-message {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #a1a1aa;
+    margin: 10px 24px 0;
+    white-space: pre-wrap;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    text-align: center;
+  }
+
+  /* Separador decorativo — mesmo estilo de .custom-dialog-card::after original, melhorado */
+  .dlg-divider {
+    margin: 20px 20px 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+  }
+
+  /* ── AÇÕES ── */
+  .custom-dialog-actions {
+    display: flex;
+    gap: 10px;
+    padding: 16px 20px 0;
+    align-items: stretch;
+  }
+  /* Botão único fica full-width */
+  .custom-dialog-actions.single-btn {
+    padding: 16px 20px 0;
+  }
+
+  /* ── BOTÕES ── */
+  .custom-dialog-btn {
+    flex: 1;
+    height: 46px;
+    padding: 0 16px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.05);
+    color: #f4f4f5;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    transition:
+      transform 0.18s cubic-bezier(0.34,1.56,0.64,1),
+      filter 0.15s ease,
+      box-shadow 0.2s ease,
+      background 0.15s ease;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    position: relative; overflow: hidden;
+  }
+  .custom-dialog-btn::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0);
+    border-radius: 14px;
+    transition: background 0.15s ease;
+  }
+  .custom-dialog-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .custom-dialog-btn:active { transform: translateY(1px) scale(0.97); filter: brightness(0.97); }
+
+  /* Botão OK — Indigo premium (igual ao primary geral) */
+  .custom-dialog-ok {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    border-color: rgba(99,102,241,0.4);
+    color: #ffffff;
+    box-shadow: 0 8px 22px rgba(99,102,241,0.28);
+  }
+  .custom-dialog-ok:hover { box-shadow: 0 10px 28px rgba(99,102,241,0.4); }
+
+  /* Botão Cancelar — neutro sofisticado */
+  .custom-dialog-cancel {
+    background: linear-gradient(150deg, rgba(38,38,44,0.95) 0%, rgba(24,24,28,0.95) 100%);
+    border-color: rgba(255,255,255,0.08);
+    color: #a1a1aa;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  }
+  .custom-dialog-cancel:hover { color: #f4f4f5; border-color: rgba(255,255,255,0.14); }
+
+  /* Variante OK destrutiva (usado quando contexto é danger) */
+  .custom-dialog-ok.ok-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    border-color: rgba(239,68,68,0.42);
+    box-shadow: 0 8px 22px rgba(239,68,68,0.26);
+  }
+  .custom-dialog-ok.ok-danger:hover { box-shadow: 0 10px 28px rgba(239,68,68,0.38); }
+
+  /* Animação de clique nos botões */
+  @keyframes dlgBtnPop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(0.92); }
+    100% { transform: scale(1); }
+  }
+  .custom-dialog-btn.clicked { animation: dlgBtnPop 0.26s cubic-bezier(0.2,0.8,0.2,1); }
+
+  /* ── INPUT DO PROMPT ── */
+  .custom-dialog-input {
+    width: 100%;
+    background: linear-gradient(150deg, rgba(32,32,38,0.9) 0%, rgba(20,20,24,0.95) 100%);
+    color: #f4f4f5;
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 13px 16px;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    outline: none;
+    text-align: center;
+    margin-top: 14px;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .custom-dialog-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
+  }
+  .custom-dialog-input::-webkit-outer-spin-button,
+  .custom-dialog-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .custom-dialog-input[type=number] { -moz-appearance: textfield; }
+
+  /* Wrapper de input dentro da mensagem */
+  .dlg-input-wrap { padding: 0 24px; }
+
   `;
   document.head.appendChild(style);
 
+  /* ── Montar o backdrop ── */
   const backdrop = document.createElement('div');
   backdrop.className = 'custom-dialog-backdrop';
   backdrop.innerHTML = `
-    <div class="custom-dialog-card" role="dialog" aria-modal="true">
+    <div class="custom-dialog-card" role="dialog" aria-modal="true" id="custom-dialog-card">
+      <div class="dlg-icon-wrap" id="custom-dialog-icon-wrap">
+        <div class="dlg-icon dlg-icon-info" id="custom-dialog-icon">
+          <i class="ph ph-info" id="custom-dialog-icon-i"></i>
+        </div>
+      </div>
+      <div class="dlg-header">
+        <div class="dlg-title" id="custom-dialog-title">Informação</div>
+      </div>
       <div class="custom-dialog-message" id="custom-dialog-message"></div>
+      <div id="custom-dialog-extra"></div>
+      <div class="dlg-divider"></div>
       <div class="custom-dialog-actions" id="custom-dialog-actions">
-        <button class="custom-dialog-btn custom-dialog-ok" id="custom-dialog-ok">OK</button>
+        <button class="custom-dialog-btn custom-dialog-ok" id="custom-dialog-ok">
+          <i class="ph ph-check"></i> Entendido
+        </button>
       </div>
     </div>`;
-  document.addEventListener('DOMContentLoaded', ()=>document.body.appendChild(backdrop));
+  document.addEventListener('DOMContentLoaded', () => document.body.appendChild(backdrop));
 
+  /* ── Utilitários ── */
+  function detectDialogType(message) {
+    const m = message.toLowerCase();
+    if (/apagar|deletar|remov|excluir|irrevers|danger/.test(m)) return 'danger';
+    if (/carregad|sucesso|importad|salvo|concluíd/.test(m))    return 'success';
+    if (/atenção|cuidado|certeza|confirma|deseja/.test(m))      return 'warning';
+    return 'info';
+  }
+
+  const typeConfig = {
+    info:    { icon:'ph-info',          iconClass:'dlg-icon-info',    cardClass:'',             title:'Informação',  okLabel:'Entendido',  okClass:'' },
+    danger:  { icon:'ph-warning',       iconClass:'dlg-icon-danger',  cardClass:'dlg-danger',   title:'Atenção',     okLabel:'Confirmar',  okClass:'ok-danger' },
+    success: { icon:'ph-check-circle',  iconClass:'dlg-icon-success', cardClass:'dlg-success',  title:'Concluído',   okLabel:'Ótimo!',     okClass:'' },
+    warning: { icon:'ph-warning-circle',iconClass:'dlg-icon-warning', cardClass:'',             title:'Confirmação', okLabel:'Confirmar',  okClass:'' },
+    prompt:  { icon:'ph-pencil-simple', iconClass:'dlg-icon-prompt',  cardClass:'dlg-prompt',   title:'Editar',      okLabel:'Salvar',     okClass:'' },
+  };
+
+  function applyType(type) {
+    const cfg = typeConfig[type] || typeConfig.info;
+    const card  = document.getElementById('custom-dialog-card');
+    const iconW = document.getElementById('custom-dialog-icon');
+    const iconI = document.getElementById('custom-dialog-icon-i');
+    const titleEl = document.getElementById('custom-dialog-title');
+
+    // Reset classes
+    card.className = 'custom-dialog-card';
+    iconW.className = 'dlg-icon';
+
+    if (cfg.cardClass) card.classList.add(cfg.cardClass);
+    iconW.classList.add(cfg.iconClass);
+    iconI.className = `ph ${cfg.icon}`;
+    titleEl.textContent = cfg.title;
+
+    return cfg;
+  }
+
+  /* ── Diálogo de alerta / confirm ── */
   let resolver = null;
-  function openDialog(message){
+  function openDialog(message) {
     return new Promise(resolve => {
       resolver = resolve;
-      const msg = document.getElementById('custom-dialog-message');
-      const actions = document.getElementById('custom-dialog-actions');
-      msg.textContent = message;
+
+      const type   = detectDialogType(message);
+      const cfg    = applyType(type);
+      const isConf = (type === 'danger' || type === 'warning');
       const isBackup = (document.querySelector('.tab-content.active')?.id === 'tab-backup');
-      actions.innerHTML = isBackup ? `
-        <button class=\"custom-dialog-btn custom-dialog-cancel\" id=\"custom-dialog-cancel\">Cancelar</button>
-        <button class=\"custom-dialog-btn custom-dialog-ok\" id=\"custom-dialog-ok\">OK</button>` : `
-        <button class=\"custom-dialog-btn custom-dialog-ok\" id=\"custom-dialog-ok\">OK</button>`;
+      const showCancel = isConf || isBackup;
+
+      document.getElementById('custom-dialog-message').textContent = message;
+      document.getElementById('custom-dialog-extra').innerHTML = '';
+
+      const actions = document.getElementById('custom-dialog-actions');
+      actions.className = `custom-dialog-actions${showCancel ? '' : ' single-btn'}`;
+
+      if (showCancel) {
+        actions.innerHTML = `
+          <button class="custom-dialog-btn custom-dialog-cancel" id="custom-dialog-cancel">
+            <i class="ph ph-x"></i> Cancelar
+          </button>
+          <button class="custom-dialog-btn custom-dialog-ok ${cfg.okClass}" id="custom-dialog-ok">
+            <i class="ph ph-check"></i> ${cfg.okLabel}
+          </button>`;
+      } else {
+        actions.innerHTML = `
+          <button class="custom-dialog-btn custom-dialog-ok ${cfg.okClass}" id="custom-dialog-ok">
+            <i class="ph ph-check"></i> ${cfg.okLabel}
+          </button>`;
+      }
+
+      backdrop.classList.remove('hide');
       backdrop.classList.add('show');
     });
   }
-  function closeDialog(value){
+
+  function closeDialog(value) {
     backdrop.classList.remove('show');
+    backdrop.classList.add('hide');
     const resolve = resolver; resolver = null;
+    setTimeout(() => { backdrop.classList.remove('hide'); }, 230);
     if (resolve) resolve(value);
   }
+
+  /* ── Diálogo de prompt numérico ── */
   let promptResolver = null;
-  function openPromptDialog(message, defaultValue){
+  function openPromptDialog(message, defaultValue) {
     return new Promise(resolve => {
       promptResolver = resolve;
-      const msg = document.getElementById('custom-dialog-message');
+
+      applyType('prompt');
+      document.getElementById('custom-dialog-title').textContent = 'Editar Valor';
+      document.getElementById('custom-dialog-message').textContent = message;
+      document.getElementById('custom-dialog-extra').innerHTML = `
+        <div class="dlg-input-wrap">
+          <input type="number" inputmode="numeric" class="custom-dialog-input" id="custom-dialog-input" value="${defaultValue ?? ''}">
+        </div>`;
+
       const actions = document.getElementById('custom-dialog-actions');
-      msg.innerHTML = `<div style="margin-bottom:14px;">${message}</div><input type="number" inputmode="numeric" class="custom-dialog-input" id="custom-dialog-input" value="${defaultValue ?? ''}">`;
+      actions.className = 'custom-dialog-actions';
       actions.innerHTML = `
-        <button class="custom-dialog-btn custom-dialog-cancel" id="custom-dialog-prompt-cancel">Cancelar</button>
-        <button class="custom-dialog-btn custom-dialog-ok" id="custom-dialog-prompt-ok">OK</button>`;
+        <button class="custom-dialog-btn custom-dialog-cancel" id="custom-dialog-prompt-cancel">
+          <i class="ph ph-x"></i> Cancelar
+        </button>
+        <button class="custom-dialog-btn custom-dialog-ok" id="custom-dialog-prompt-ok">
+          <i class="ph ph-check"></i> Salvar
+        </button>`;
+
+      backdrop.classList.remove('hide');
       backdrop.classList.add('show');
+
       const input = document.getElementById('custom-dialog-input');
-      setTimeout(() => { input.focus(); input.select(); }, 50);
-      input.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('custom-dialog-prompt-ok').click(); });
+      setTimeout(() => { input.focus(); input.select(); }, 80);
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('custom-dialog-prompt-ok').click();
+        if (e.key === 'Escape') document.getElementById('custom-dialog-prompt-cancel').click();
+      });
     });
   }
-  function closePromptDialog(value){
+
+  function closePromptDialog(value) {
     backdrop.classList.remove('show');
+    backdrop.classList.add('hide');
     const resolve = promptResolver; promptResolver = null;
+    setTimeout(() => { backdrop.classList.remove('hide'); }, 230);
     if (resolve) resolve(value);
   }
+
+  /* ── Handler de cliques (delegação) ── */
+  function animBtn(btn, cb) {
+    btn.classList.remove('clicked');
+    void btn.offsetWidth;
+    btn.classList.add('clicked');
+    setTimeout(() => btn.classList.remove('clicked'), 280);
+    setTimeout(cb, 190);
+  }
+
   document.addEventListener('click', e => {
-    if (e.target.id === 'custom-dialog-ok') {
-      e.target.classList.remove('clicked');
-      void e.target.offsetWidth;
-      e.target.classList.add('clicked');
-      setTimeout(() => e.target.classList.remove('clicked'), 300);
-      setTimeout(() => closeDialog(true), 180);
-    }
-    if (e.target.id === 'custom-dialog-cancel') {
-      e.target.classList.remove('clicked');
-      void e.target.offsetWidth;
-      e.target.classList.add('clicked');
-      setTimeout(() => e.target.classList.remove('clicked'), 300);
-      setTimeout(() => closeDialog(false), 180);
-    }
-    if (e.target.id === 'custom-dialog-prompt-ok') {
+    const t = e.target.closest('button');
+    if (!t) return;
+    if (t.id === 'custom-dialog-ok')             animBtn(t, () => closeDialog(true));
+    if (t.id === 'custom-dialog-cancel')          animBtn(t, () => closeDialog(false));
+    if (t.id === 'custom-dialog-prompt-ok') {
       const input = document.getElementById('custom-dialog-input');
       const value = input ? input.value : null;
-      e.target.classList.remove('clicked');
-      void e.target.offsetWidth;
-      e.target.classList.add('clicked');
-      setTimeout(() => e.target.classList.remove('clicked'), 300);
-      setTimeout(() => closePromptDialog(value), 180);
+      animBtn(t, () => closePromptDialog(value));
     }
-    if (e.target.id === 'custom-dialog-prompt-cancel') {
-      e.target.classList.remove('clicked');
-      void e.target.offsetWidth;
-      e.target.classList.add('clicked');
-      setTimeout(() => e.target.classList.remove('clicked'), 300);
-      setTimeout(() => closePromptDialog(null), 180);
-    }
-    if (e.target === backdrop) return;
+    if (t.id === 'custom-dialog-prompt-cancel')   animBtn(t, () => closePromptDialog(null));
   });
-  window.alert = async function(message){ await openDialog(String(message ?? '')); };
-  window.confirm = async function(message){ return await openDialog(String(message ?? '')); };
-  window.customPrompt = async function(message, defaultValue){ return await openPromptDialog(String(message ?? ''), defaultValue); };
+
+  /* ── Sobrescrita das APIs nativas ── */
+  window.alert        = async (msg)            => { await openDialog(String(msg ?? '')); };
+  window.confirm      = async (msg)            => openDialog(String(msg ?? ''));
+  window.customPrompt = async (msg, def)       => openPromptDialog(String(msg ?? ''), def);
 
   const originalClearAllData = window.clearAllData;
-  window.clearAllData = function(){
+  window.clearAllData = function() {
     openDialog('Deseja apagar todos os registros do armazenamento local?').then(ok => {
       if (ok && typeof originalClearAllData === 'function') originalClearAllData();
     });
