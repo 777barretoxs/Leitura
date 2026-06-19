@@ -1244,12 +1244,13 @@
             gap: 10px;
         }
 
+        /* Mesmo padrão visual "premium" de .calendar-wrapper / .chart-wrapper */
         .stat-box {
-            background: linear-gradient(150deg, rgba(30,30,36,0.92) 0%, rgba(16,16,19,0.97) 100%);
-            padding: 18px 14px 14px;
-            border-radius: var(--border-radius-lg);
-            border: 1px solid rgba(255,255,255,0.055);
-            box-shadow: var(--shadow-soft);
+            background: linear-gradient(150deg, rgba(24,24,30,0.98) 0%, rgba(14,14,18,0.99) 100%);
+            padding: 16px 14px 14px;
+            border-radius: 22px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
             position: relative;
             overflow: hidden;
             transition: transform 0.2s ease, border-color 0.25s ease;
@@ -1261,23 +1262,23 @@
             .stat-box:hover { border-color: rgba(99,102,241,0.22); }
         }
 
+        /* Linha de acento no topo, idêntica à de .calendar-wrapper::before / .chart-wrapper::before */
         .stat-box::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 2px;
-            border-radius: 99px 99px 0 0;
         }
 
-        .stat-box:nth-child(1)::before { background: linear-gradient(90deg, #6366f1, #818cf8); }
-        .stat-box:nth-child(2)::before { background: linear-gradient(90deg, #22c55e, #4ade80); }
-        .stat-box:nth-child(3)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-        .stat-box:nth-child(4)::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+        .stat-box:nth-child(1)::before { background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), rgba(129,140,248,0.4), transparent); }
+        .stat-box:nth-child(2)::before { background: linear-gradient(90deg, transparent, rgba(34,197,94,0.5), rgba(74,222,128,0.4), transparent); }
+        .stat-box:nth-child(3)::before { background: linear-gradient(90deg, transparent, rgba(245,158,11,0.5), rgba(251,191,36,0.4), transparent); }
+        .stat-box:nth-child(4)::before { background: linear-gradient(90deg, transparent, rgba(236,72,153,0.5), rgba(244,114,182,0.4), transparent); }
 
         .stat-box-icon {
             width: 32px;
             height: 32px;
-            border-radius: 9px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1291,7 +1292,7 @@
         .stat-box:nth-child(4) .stat-box-icon { background: rgba(236,72,153,0.12); color: #f472b6; }
 
         .stat-value {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             color: #ffffff;
             letter-spacing: -0.03em;
@@ -1301,8 +1302,8 @@
 
         .stat-label {
             font-size: 11px;
-            color: var(--text-secondary);
-            font-weight: 600;
+            color: var(--text-muted);
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -1330,21 +1331,32 @@
             white-space: nowrap;
         }
 
-        /* Card de Meta Diária */
+        /* Card de Meta Diária — mesmo padrão "premium" de .calendar-wrapper / .chart-wrapper */
         .daily-goal-card {
-            background: linear-gradient(150deg, rgba(30,30,36,0.92) 0%, rgba(16,16,19,0.97) 100%);
-            border: 1px solid rgba(255,255,255,0.055);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-            box-shadow: var(--shadow-soft);
+            background: linear-gradient(150deg, rgba(24,24,30,0.98) 0%, rgba(14,14,18,0.99) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 22px;
+            padding: 18px 16px 16px;
+            margin-bottom: var(--spacing-md);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Linha de acento no topo, idêntica à de .calendar-wrapper::before / .chart-wrapper::before */
+        .daily-goal-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), rgba(139,92,246,0.4), transparent);
         }
 
         .daily-goal-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: var(--spacing-md);
+            margin-bottom: 16px;
         }
 
         .daily-goal-title {
@@ -1354,18 +1366,30 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            letter-spacing: -0.01em;
         }
 
         .daily-goal-title i {
-            font-size: 18px;
-            color: var(--text-secondary);
+            font-size: 16px;
+            color: #818cf8;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: rgba(99,102,241,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
 
         .daily-goal-date {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 2px;
-            text-transform: capitalize;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 4px;
+            margin-left: 40px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .daily-goal-btn {
@@ -1375,25 +1399,26 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            border-radius: var(--border-radius-sm) !important;
+            border-radius: 10px !important;
             white-space: nowrap;
         }
 
         .daily-goal-progress {
             width: 100%;
             height: 8px;
-            background-color: var(--surface-light);
+            background: rgba(255,255,255,0.05);
             border-radius: 99px;
             overflow: hidden;
-            margin-bottom: var(--spacing-md);
+            margin-bottom: 14px;
         }
 
         .daily-goal-progress-bar {
             height: 100%;
             border-radius: 99px;
-            background: linear-gradient(90deg, var(--accent-color), #818cf8);
+            background: linear-gradient(90deg, #6366f1, #818cf8);
             width: 0%;
             transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 12px rgba(99,102,241,0.45);
         }
 
         .daily-goal-meta {
@@ -1406,15 +1431,19 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
-            font-size: 13px;
-            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .daily-goal-meta strong {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
             letter-spacing: -0.02em;
+            text-transform: none;
         }
 
         /* ── FREQUÊNCIA MENSAL — CALENDÁRIO PREMIUM ── */
@@ -5418,3 +5447,4 @@ function renderStats() {
 </script>
 </body>
 </html>
+
